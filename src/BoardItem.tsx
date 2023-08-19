@@ -45,15 +45,20 @@ function BoardItem(props: {
 			className={`boardItem gridItem ${data.isComplete ? 'isComplete' : ''} `}
 			onClick={handleItemClick}
 		>
-			{data.displayTitle}
-			{data.displayTitle !== undefined && index !== 12 ? (
-				<FontAwesomeIcon
-					className='icon'
-					icon={faTrashCan}
-					size='sm'
-					onClick={handleDelete}
-				/>
-			) : null}
+			<div className='itemContent'>
+				<div>{data.displayTitle}</div>
+
+				{data.displayTitle !== undefined && index !== 12 ? (
+					<div className='trash-container'>
+						<FontAwesomeIcon
+							className='delete-icon'
+							icon={faTrashCan}
+							size='sm'
+							onClick={handleDelete}
+						/>
+					</div>
+				) : null}
+			</div>
 		</div>
 	);
 }

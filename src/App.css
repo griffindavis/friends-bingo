@@ -30,16 +30,28 @@
   padding: 5px;
 }
 
-.icon {
-  position: absolute;
-  right: 2px;
-  bottom: 2px;
-  color: #39395f;
-  }
-  
-  .icon:hover {
-    cursor: pointer
-  }
+.delete-icon {
+  align-self: flex-end;
+}
+
+.delete-icon:hover {
+  cursor: pointer;
+}
+
+.trash-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.itemContent {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
 
 .isComplete {
   background-color: #73a24e;
