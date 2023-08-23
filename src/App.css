@@ -1,15 +1,23 @@
+:root {
+  --main-bg-dark: #073B4C;
+  --main-bg-light: #118AB2;
+  --main-green: #06D6A0;
+  --main-bg-grey:#EDF2F4;
+  --main-red: #EF476F;
+}
+
 .App {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-image: linear-gradient(to bottom right, var(--main-bg-light), var(--main-bg-grey));
 }
 
 .gridArea {
-  height: 80%;
-  width: 80%;
   max-width: 900px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -20,14 +28,18 @@
 .headerItem {
   font-weight: bold;
   font-size: 2rem;
-  color: #39395f;
 }
 
 .boardItem {
-  background-color: #f5eec2;
+  background-color: var(--main-bg-grey);
   border: 1px solid black;
   filter: drop-shadow(1px 1px 1px #39395f);
   padding: 5px;
+  aspect-ratio: 1/1;
+}
+
+.boardItem:hover {
+  transform: scale(1.02);
 }
 
 .delete-icon {
@@ -54,28 +66,13 @@
 }
 
 .isComplete {
-  background-color: #73a24e;
+  background-color: var(--main-green);
 }
 
 .gridItem {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .sign-in {
@@ -87,4 +84,26 @@
   position: absolute;
   top: 1em;
   Right: 1em;
+}
+
+@media (orientation: portrait)
+{
+  .gridArea {
+    width: 80%;
+  }
+
+  .boardItem {
+    font-size: max(10px, 2vw);
+  }
+}
+
+@media(orientation: landscape)
+{
+  .gridArea {
+    width: calc(80vh);
+  }
+
+  .boardItem {
+    font-size: max(10px, 2vh);
+  }
 }

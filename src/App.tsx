@@ -130,6 +130,7 @@ function App() {
 								data={item}
 								firestore={firestore}
 								index={currentIndex++}
+								auth={userAuth}
 							></BoardItem>
 						))
 					)}

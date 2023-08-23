@@ -8,19 +8,32 @@ import {
 	collection,
 	addDoc,
 	deleteDoc,
+	Timestamp,
 } from 'firebase/firestore';
+import { User } from 'firebase/auth';
 
 function BoardItem(props: {
 	data: IBingoBoardItem;
 	firestore: Firestore;
 	index: number;
+	auth: User | null | undefined;
 }) {
-	const { data, firestore, index } = props;
+	const { data, firestore, index, auth } = props;
 
 	function handleItemClick() {
 		if (data.id !== undefined) {
+			const currentCompletionStatus = data.isComplete;
 			const docRef = doc(firestore, 'BoardItems', data.id);
 			updateDoc(docRef, { isComplete: !data.isComplete });
+
+			addDoc(collection(firestore, 'Audit'), {
+				boardItem: docRef.id,
+				editedProperty: 'isComplete',
+				previousValue: currentCompletionStatus,
+				newValue: !currentCompletionStatus,
+				user: auth?.displayName,
+				datetime: Timestamp.now(),
+			});
 		} else {
 			const newTitle = prompt("What's the new bingo item?", '');
 			if (newTitle === null || newTitle === '') {
@@ -30,6 +43,14 @@ function BoardItem(props: {
 			addDoc(collection(firestore, 'BoardItems'), {
 				displayTitle: newTitle,
 				index: index,
+			}).then((docRef) => {
+				addDoc(collection(firestore, 'Audit'), {
+					boardItem: docRef.id,
+					editedProperty: 'displayTitle',
+					newValue: newTitle,
+					user: auth?.displayName,
+					datetime: Timestamp.now(),
+				});
 			});
 		}
 	}
@@ -38,6 +59,14 @@ function BoardItem(props: {
 		e.stopPropagation();
 		const docRef = doc(firestore, 'BoardItems', data.id);
 		deleteDoc(docRef);
+
+		addDoc(collection(firestore, 'Audit'), {
+			boardItem: docRef.id,
+			editedProperty: 'deleted',
+			previousValue: data.displayTitle,
+			user: auth?.displayName,
+			datetime: Timestamp.now(),
+		});
 	}
 
 	return (
