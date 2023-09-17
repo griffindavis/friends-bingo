@@ -9,6 +9,8 @@ import { getAuth } from 'firebase/auth';
 import SignIn from './Components/SignIn';
 import { Helmet } from 'react-helmet';
 import Board from './Components/Board';
+import { useState } from 'react';
+import SelectBoard from './Components/SelectBoard';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -35,6 +37,7 @@ const firestore = getFirestore(app);
  */
 function App() {
 	const [userAuth] = useAuthState(auth);
+	const [boardId, setBoardId] = useState<null | string>(null);
 
 	return (
 		<>
@@ -50,12 +53,21 @@ function App() {
 	function authenticatedApp() {
 		return (
 			<>
-				<Board
-					boardId='1'
-					auth={auth}
-					firestore={firestore}
-					userAuth={userAuth}
-				/>
+				{boardId === null ? (
+					<SelectBoard
+						firestore={firestore}
+						auth={auth}
+						setBoardId={setBoardId}
+					/>
+				) : (
+					<Board
+						boardId={boardId}
+						auth={auth}
+						firestore={firestore}
+						userAuth={userAuth}
+						setBoardId={setBoardId}
+					/>
+				)}
 			</>
 		);
 	}

@@ -84,6 +84,41 @@
   Right: 1em;
 }
 
+.goBack {
+  position: absolute;
+  top: 1em;
+  left: 1em;
+}
+
+.boardTitle {
+  font-weight: bold;
+}
+
+.boardSelectionContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.boardDetails {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.selectionItem {
+  background-color: var(--main-bg-grey);
+  border: 1px solid black;
+  filter: drop-shadow(1px 1px 1px #39395f);
+  padding: 5px;
+  aspect-ratio: 1/1;
+}
+
+.selectionItem:hover {
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
 @media (orientation: portrait)
 {
   .gridArea {
