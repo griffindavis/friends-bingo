@@ -17,12 +17,17 @@ function BoardItem(props: {
 	firestore: Firestore;
 	index: number;
 	auth: User | null | undefined;
+	isAdmin: boolean;
+	canEdit: boolean;
 }) {
-	const { data, firestore, index, auth } = props;
+	const { data, firestore, index, auth, isAdmin, canEdit } = props;
 
 	function handleItemClick() {
+		if (!canEdit) {
+			return;
+		}
 		if (data.id !== undefined) {
-			const currentCompletionStatus = data.isComplete;
+			const currentCompletionStatus = data.isComplete || false;
 			const docRef = doc(firestore, 'BoardItems', data.id);
 			updateDoc(docRef, { isComplete: !data.isComplete });
 
@@ -77,7 +82,7 @@ function BoardItem(props: {
 			<div className='itemContent'>
 				<div>{data.displayTitle}</div>
 
-				{data.displayTitle !== undefined && index !== 12 ? (
+				{data.displayTitle !== undefined && isAdmin ? (
 					<div className='trash-container'>
 						<FontAwesomeIcon
 							className='delete-icon'

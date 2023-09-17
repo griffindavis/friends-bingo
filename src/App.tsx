@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import BoardItem from './BoardItem';
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
-import { getFirestore, collection } from 'firebase/firestore';
+import { getFirestore, collection, doc, getDoc } from 'firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import IBingoBoardItem from './IBingoBoardItem';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth } from 'firebase/auth';
 import SignIn from './SignIn';
+import { Helmet } from 'react-helmet';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -18,14 +19,14 @@ import SignIn from './SignIn';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-	apiKey: 'AIzaSyDyjERVs7wnj-JWzb5RFDXYRxbpGAKxmjI',
-	authDomain: 'friend-bingo.firebaseapp.com',
-	projectId: 'friend-bingo',
-	storageBucket: 'friend-bingo.appspot.com',
-	messagingSenderId: '1021858452501',
+	apiKey: `${process.env.REACT_APP_API_KEY}`,
+	authDomain: `${process.env.REACT_APP_AUTH_DOMAIN}`,
+	projectId: `${process.env.REACT_APP_PROJECT_ID}`,
+	storageBucket: `${process.env.REACT_APP_STORAGE_BUCKET}`,
+	messagingSenderId: `${process.env.REACT_APP_MESSAGING_SENDER_ID}`,
 
-	appId: '1:1021858452501:web:5d4e5f5b13d5e7bb0eaa1c',
-	measurementId: 'G-QQN4VZZYQM',
+	appId: `${process.env.REACT_APP_APP_ID}`,
+	measurementId: `${process.env.REACT_APP_MEASUREMENT_ID}`,
 };
 
 // Initialize Firebase
@@ -79,6 +80,19 @@ function App() {
 		snapshotListenOptions: { includeMetadataChanges: true },
 	});
 
+	const isAdmin = useRef(false);
+	const canEdit = useRef(false);
+
+	useEffect(() => {
+		if (auth.currentUser != null) {
+			const ref = doc(firestore, 'Users', auth.currentUser?.uid);
+			getDoc(ref).then((result) => {
+				isAdmin.current = result?.data()?.isAdmin;
+				canEdit.current = result?.data()?.canEdit;
+			});
+		}
+	});
+
 	// Main rerendering for reordering the pieces on the board if the index changes
 	useEffect(() => {
 		const newItems = initializeBoardItems();
@@ -108,9 +122,14 @@ function App() {
 	}
 
 	return (
-		<div className='App'>
-			{userAuth ? authenticatedApp() : <SignIn app={app} />}
-		</div>
+		<>
+			<Helmet>
+				<title>WI Friends Bingo!</title>
+			</Helmet>
+			<div className='App' key='AppWrapper'>
+				{userAuth ? authenticatedApp() : <SignIn app={app} />}
+			</div>
+		</>
 	);
 
 	function authenticatedApp() {
@@ -131,6 +150,8 @@ function App() {
 								firestore={firestore}
 								index={currentIndex++}
 								auth={userAuth}
+								isAdmin={isAdmin.current}
+								canEdit={canEdit.current}
 							></BoardItem>
 						))
 					)}
