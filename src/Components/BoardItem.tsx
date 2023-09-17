@@ -1,4 +1,4 @@
-import IBingoBoardItem from './IBingoBoardItem';
+import IBingoBoardItem from '../Types/IBingoBoardItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import {
