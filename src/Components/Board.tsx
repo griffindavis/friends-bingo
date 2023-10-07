@@ -18,6 +18,7 @@ function Board(props: {
 	const canEdit = useRef(false);
 	const BOARD_SIZE = 5;
 	let currentIndex = 0;
+	const BOARD_PATH = `Boards/${boardId}`;
 
 	useEffect(() => {
 		if (auth.currentUser != null) {
@@ -32,9 +33,12 @@ function Board(props: {
 	const [boardItems, setBoardItems] = useState(initializeBoardItems());
 
 	// listen for updates to the loads on the database
-	let [dbBingoItems] = useCollection(collection(firestore, 'BoardItems'), {
-		snapshotListenOptions: { includeMetadataChanges: true },
-	});
+	let [dbBingoItems] = useCollection(
+		collection(firestore, `${BOARD_PATH}/BoardItems`),
+		{
+			snapshotListenOptions: { includeMetadataChanges: true },
+		}
+	);
 
 	/**
 	 * Outputs the contents of the header as an array
@@ -118,6 +122,7 @@ function Board(props: {
 							auth={userAuth}
 							isAdmin={isAdmin.current}
 							canEdit={canEdit.current}
+							boardPath={BOARD_PATH}
 						></BoardItem>
 					))
 				)}
