@@ -16,6 +16,10 @@
   background-image: linear-gradient(to bottom right, var(--main-bg-light), var(--main-bg-grey));
 }
 
+.addGridButton {
+  opacity: .8;
+}
+
 .gridArea {
   max-width: 900px;
   display: grid;
@@ -34,6 +38,7 @@
   filter: drop-shadow(1px 1px 1px #39395f);
   padding: 5px;
   aspect-ratio: 1/1;
+  overflow: hidden;
 }
 
 .boardItem:hover {
@@ -112,6 +117,7 @@
   filter: drop-shadow(1px 1px 1px #39395f);
   padding: 5px;
   aspect-ratio: 1/1;
+  overflow: hidden;
 }
 
 .selectionItem:hover {

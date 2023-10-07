@@ -2,14 +2,16 @@ import { Firestore, collection } from 'firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import IBoardData from '../Types/IBoardData';
 import BoardCard from './BoardCard';
-import { Auth } from 'firebase/auth';
+import { Auth, User } from 'firebase/auth';
+import NewBoardCard from './NewBoardCard';
 
 function SelectBoard(props: {
 	firestore: Firestore;
 	auth: Auth;
+	userAuth: User | null | undefined;
 	setBoardId: React.Dispatch<React.SetStateAction<null | string>>;
 }) {
-	const { firestore, auth } = props;
+	const { firestore, auth, userAuth } = props;
 
 	const [dbBoards] = useCollection(collection(firestore, 'Boards'), {
 		snapshotListenOptions: { includeMetadataChanges: true },
@@ -34,6 +36,11 @@ function SelectBoard(props: {
 
 					return <BoardCard data={data} setBoardId={props.setBoardId} />;
 				})}
+				<NewBoardCard
+					firestore={firestore}
+					auth={userAuth}
+					setBoardId={props.setBoardId}
+				/>
 			</div>
 		</>
 	);

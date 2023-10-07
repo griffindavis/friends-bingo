@@ -57,6 +57,7 @@ function App() {
 					<SelectBoard
 						firestore={firestore}
 						auth={auth}
+						userAuth={userAuth}
 						setBoardId={setBoardId}
 					/>
 				) : (
