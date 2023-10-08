@@ -18,11 +18,17 @@ function Board(props: {
 	const canEdit = useRef(false);
 	const BOARD_SIZE = 5;
 	let currentIndex = 0;
-	const BOARD_PATH = `Boards/${boardId}`;
+	const BOARD_PATH = `Boards${
+		process.env.REACT_APP_ENV === 'dev' ? '-dev' : ''
+	}/${boardId}`;
 
 	useEffect(() => {
 		if (auth.currentUser != null) {
-			const ref = doc(firestore, 'Users', auth.currentUser?.uid);
+			const ref = doc(
+				firestore,
+				`Users${process.env.REACT_APP_ENV === 'dev' ? '-dev' : ''}`,
+				auth.currentUser?.uid
+			);
 			getDoc(ref).then((result) => {
 				isAdmin.current = result?.data()?.isAdmin;
 				canEdit.current = result?.data()?.canEdit;

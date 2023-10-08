@@ -21,11 +21,11 @@ function NewBoardCard(props: {
 			return;
 		}
 
-		addDoc(collection(firestore, 'Boards'), {
+		addDoc(collection(firestore, `Boards${process.env.REACT_APP_ENV === 'dev' ? '-dev' : ''}`), {
 			Name: newTitle,
 			Group: group,
 		}).then((docRef) => {
-			addDoc(collection(firestore, 'Audit'), {
+			addDoc(collection(firestore, `Audit${process.env.REACT_APP_ENV === 'dev' ? '-dev' : ''}`), {
 				Board: docRef.id,
 				newValue: 'Created',
 				user: auth?.displayName,

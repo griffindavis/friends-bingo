@@ -10,7 +10,7 @@ function SignIn(props: { app: firebase.FirebaseApp }) {
 
 		const firestore = getFirestore(props.app);
 		if (auth.currentUser) {
-			const ref = doc(firestore, 'Users', auth.currentUser.uid);
+			const ref = doc(firestore, `Users${process.env.REACT_APP_ENV === 'dev' ? '-dev' : ''}`, auth.currentUser.uid);
 			if (!(await getDoc(ref)).exists())
 				setDoc(ref, {
 					email: auth.currentUser.email,

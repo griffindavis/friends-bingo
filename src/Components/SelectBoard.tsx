@@ -13,7 +13,7 @@ function SelectBoard(props: {
 }) {
 	const { firestore, auth, userAuth } = props;
 
-	const [dbBoards] = useCollection(collection(firestore, 'Boards'), {
+	const [dbBoards] = useCollection(collection(firestore, `Boards${process.env.REACT_APP_ENV === 'dev' ? '-dev' : ''}`), {
 		snapshotListenOptions: { includeMetadataChanges: true },
 	});
 
