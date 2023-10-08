@@ -14,6 +14,7 @@
     "@types/node": "^16.18.39",
     "@types/react": "^18.2.18",
     "@types/react-dom": "^18.2.7",
+    "cross-env": "^7.0.3",
     "firebase": "^10.1.0",
     "font-awesome": "^4.7.0",
     "react": "^18.2.0",
@@ -25,8 +26,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "cross-env REACT_APP_ENV=dev react-scripts start",
+    "build": "cross-env REACT_APP_ENV=prod react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

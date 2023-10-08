@@ -1,4 +1,4 @@
-import IBingoBoardItem from './IBingoBoardItem';
+import IBingoBoardItem from '../Types/IBingoBoardItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -19,8 +19,9 @@ function BoardItem(props: {
 	auth: User | null | undefined;
 	isAdmin: boolean;
 	canEdit: boolean;
+	boardPath: string;
 }) {
-	const { data, firestore, index, auth, isAdmin, canEdit } = props;
+	const { data, firestore, index, auth, isAdmin, canEdit, boardPath } = props;
 
 	function handleItemClick() {
 		if (!canEdit) {
@@ -28,10 +29,10 @@ function BoardItem(props: {
 		}
 		if (data.id !== undefined) {
 			const currentCompletionStatus = data.isComplete || false;
-			const docRef = doc(firestore, 'BoardItems', data.id);
+			const docRef = doc(firestore, `${boardPath}/BoardItems`, data.id);
 			updateDoc(docRef, { isComplete: !data.isComplete });
 
-			addDoc(collection(firestore, 'Audit'), {
+			addDoc(collection(firestore, `${boardPath}/Audit`), {
 				boardItem: docRef.id,
 				editedProperty: 'isComplete',
 				previousValue: currentCompletionStatus,
@@ -45,11 +46,11 @@ function BoardItem(props: {
 				return;
 			}
 
-			addDoc(collection(firestore, 'BoardItems'), {
+			addDoc(collection(firestore, `${boardPath}/BoardItems`), {
 				displayTitle: newTitle,
 				index: index,
 			}).then((docRef) => {
-				addDoc(collection(firestore, 'Audit'), {
+				addDoc(collection(firestore, `${boardPath}/Audit`), {
 					boardItem: docRef.id,
 					editedProperty: 'displayTitle',
 					newValue: newTitle,
@@ -62,10 +63,10 @@ function BoardItem(props: {
 
 	function handleDelete(e: any) {
 		e.stopPropagation();
-		const docRef = doc(firestore, 'BoardItems', data.id);
+		const docRef = doc(firestore, `${boardPath}/BoardItems`, data.id);
 		deleteDoc(docRef);
 
-		addDoc(collection(firestore, 'Audit'), {
+		addDoc(collection(firestore, `${boardPath}/Audit`), {
 			boardItem: docRef.id,
 			editedProperty: 'deleted',
 			previousValue: data.displayTitle,
