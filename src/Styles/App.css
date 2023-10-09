@@ -113,7 +113,6 @@
 
 .selectionItem {
   background-color: var(--main-bg-grey);
-  border: 1px solid black;
   filter: drop-shadow(1px 1px 1px #39395f);
   padding: 5px;
   aspect-ratio: 1/1;
@@ -145,4 +144,41 @@
   .boardItem {
     font-size: max(6px, 2vh);
   }
+}
+
+.navBarTop
+{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 5vh;
+  z-index: 1000;
+
+  display: flex;
+}
+
+.navButton {
+  flex: 1;
+  max-width: 100px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: .25rem .5rem .1rem .5rem;
+  background-color: var(--main-bg-grey);
+  border-radius: 10px;
+
+  font-weight: bold;
+}
+
+.navButton:hover {
+  cursor: pointer;
+}
+
+.navButton.disabled {
+  opacity: .5;
+}
+.navButton.disabled:hover {
+  cursor: not-allowed;
 }
