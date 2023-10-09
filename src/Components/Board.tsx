@@ -10,9 +10,8 @@ function Board(props: {
 	auth: Auth;
 	firestore: Firestore;
 	userAuth: User | null | undefined;
-	setBoardId: React.Dispatch<React.SetStateAction<null | string>>;
 }) {
-	const { boardId, auth, firestore, userAuth, setBoardId } = props;
+	const { boardId, auth, firestore, userAuth } = props;
 
 	const isAdmin = useRef(false);
 	const canEdit = useRef(false);
@@ -76,20 +75,6 @@ function Board(props: {
 		return [row, column];
 	}
 
-	/**
-	 * Function to log a user out
-	 */
-	function handleLogout() {
-		auth.signOut();
-	}
-
-	/**
-	 * Function to return to board select
-	 */
-	function handleBack() {
-		setBoardId(null);
-	}
-
 	// Main rerendering for reordering the pieces on the board if the index changes
 	useEffect(() => {
 		const newItems = initializeBoardItems();
@@ -111,9 +96,6 @@ function Board(props: {
 
 	return (
 		<>
-			<button className='signOut' onClick={handleLogout}>
-				Sign Out
-			</button>
 			<div className='gridArea'>
 				{getHeader().map((headerItem) => (
 					<div className='headerItem gridItem'>{headerItem}</div>
@@ -133,9 +115,6 @@ function Board(props: {
 					))
 				)}
 			</div>
-			<button className='goBack' onClick={handleBack}>
-				Go Back
-			</button>
 		</>
 	);
 }
