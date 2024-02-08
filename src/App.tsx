@@ -10,6 +10,7 @@ import SignIn from './Components/SignIn';
 import { Helmet } from 'react-helmet';
 import Board from './Components/Board';
 import { useState } from 'react';
+import NavBar from './Components/NavBar';
 import SelectBoard from './Components/SelectBoard';
 
 // Your web app's Firebase configuration
@@ -53,11 +54,17 @@ function App() {
 	function authenticatedApp() {
 		return (
 			<>
+				<NavBar
+					firestore={firestore}
+					auth={auth}
+					userAuth={userAuth}
+					setBoardId={setBoardId}
+					boardId={boardId}
+				/>
 				{boardId === null ? (
 					<SelectBoard
 						firestore={firestore}
 						auth={auth}
-						userAuth={userAuth}
 						setBoardId={setBoardId}
 					/>
 				) : (
@@ -66,7 +73,6 @@ function App() {
 						auth={auth}
 						firestore={firestore}
 						userAuth={userAuth}
-						setBoardId={setBoardId}
 					/>
 				)}
 			</>
