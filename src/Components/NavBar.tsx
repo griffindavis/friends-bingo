@@ -122,29 +122,29 @@ function NavBar(props: {
 	return (
 		<>
 			<nav className='navBarTop'>
-				<div className='navButton' onClick={handleLogout}>
+				<button className='navButton' onClick={handleLogout}>
 					Logout
-				</div>
+				</button>
 
-				<div
+				<button
 					className={`navButton ${boardId === null ? 'disabled' : ''}`}
 					onClick={handleBack}
 				>
 					Main Menu
-				</div>
+				</button>
 
-				<div className={`navButton`} onClick={handleAddBoard}>
+				<button className={`navButton`} onClick={handleAddBoard}>
 					Add Board
-				</div>
+				</button>
 
-				<div
+				<button
 					className={`navButton ${boardId === null ? 'disabled' : ''} ${
 						isAdmin.current === true ? '' : 'disabled'
 					}`}
 					onClick={handleDeleteBoard}
 				>
 					Delete Board
-				</div>
+				</button>
 			</nav>
 		</>
 	);
