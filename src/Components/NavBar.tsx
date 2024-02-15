@@ -117,15 +117,9 @@ function NavBar(props: {
 		}
 	});
 
-	console.log(isAdmin.current);
-
 	return (
 		<>
 			<nav className='navBarTop'>
-				<button className='navButton' onClick={handleLogout}>
-					Logout
-				</button>
-
 				<button
 					className={`navButton ${boardId === null ? 'disabled' : ''}`}
 					onClick={handleBack}
@@ -144,6 +138,10 @@ function NavBar(props: {
 					onClick={handleDeleteBoard}
 				>
 					Delete Board
+				</button>
+				
+				<button className='navButton' onClick={handleLogout}>
+					Logout
 				</button>
 			</nav>
 		</>

@@ -40,10 +40,18 @@ function SelectBoard(props: {
 	}
 
 	getPermissions();
+
 	const queryPermissions = [];
 	queryPermissions.push(where('Deleted', '==', false));
 	if (!allowedAll.current) {
-		queryPermissions.push(where('Group', 'in', allowedGroups.current));
+		if (allowedGroups.current.length > 0)
+		{
+			queryPermissions.push(where('Group', 'in', allowedGroups.current));
+		}
+		else
+		{
+			queryPermissions.push(where('Group', 'in', ["No Results Allowed"])) // use this here to prevent an error and to render no results
+		}
 	}
 
 	const boardQuery = query(
@@ -57,22 +65,31 @@ function SelectBoard(props: {
 		snapshotListenOptions: { includeMetadataChanges: true },
 	});
 
+	const allowedAny = allowedAll.current || allowedGroups.current.length > 0;
+
 	return (
 		<>
-			<div className='gridArea'>
-				{dbBoards?.docs.map((board) => {
-					const data = board.data() as IBoardData;
-					data.id = board.id;
+		{
+			allowedAny ? <div className='gridArea'>
+			{dbBoards?.docs.map((board) => {
+				const data = board.data() as IBoardData;
+				data.id = board.id;
 
-					return (
-						<BoardCard
-							data={data}
-							setBoardId={props.setBoardId}
-							key={data.id}
-						/>
-					);
-				})}
-			</div>
+				return (
+					<BoardCard
+						data={data}
+						setBoardId={props.setBoardId}
+						key={data.id}
+					/>
+				);
+			})}
+		</div>
+		:
+		<div>
+			You're not provisioned for any groups...
+		</div>
+		}
+			
 		</>
 	);
 }

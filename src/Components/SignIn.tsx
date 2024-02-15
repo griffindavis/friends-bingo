@@ -20,7 +20,7 @@ function SignIn(props: { app: firebase.FirebaseApp }) {
 					email: auth.currentUser.email,
 					name: auth.currentUser.displayName,
 					isProvisioned: true,
-					AllowedGroups: ['WI'],
+					AllowedGroups: ['Intro'],
 				});
 		}
 	}
