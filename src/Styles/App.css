@@ -130,7 +130,7 @@
     width: 95%;
   }
 
-  .boardItem {
+  .gridItem {
     font-size: max(6px, 2vw);
   }
 }
@@ -141,7 +141,7 @@
     width: calc(80vh);
   }
 
-  .boardItem {
+  .gridItem {
     font-size: max(6px, 2vh);
   }
 }
